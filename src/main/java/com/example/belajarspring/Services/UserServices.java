@@ -41,4 +41,19 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User dengan id = " + id + " tidak ditemukan"));
         return this.convertToDTO(user);
     }
+
+
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setRoles(Roles.ValueOf(UserDTO.getRoles());
+        user.setTasks(userDTO.getTask().stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList()));
+
+        User savedUser = userRepository.save(user);
+        return this.convertToDTO(savedUser);
+    }
 }
