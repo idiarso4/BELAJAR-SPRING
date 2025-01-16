@@ -30,8 +30,11 @@ public class User {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name="role", nullable=false)
-    private String role;
+    private Roles role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Task> tasks= new ArrayList<>();
 	
 
 
